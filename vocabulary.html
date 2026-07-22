@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vocabulary Review | Atlas Bears Math Hub</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-left">
+      <div class="brand-mark" aria-hidden="true">🐻</div>
+      <div><h1>Vocabulary Review</h1><p>Atlas Bears Math Hub</p></div>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="mathdle.html">Mathdle</a>
+      <a class="active" href="vocabulary.html">Vocabulary</a>
+      <a href="eog-challenge.html">EOG Challenge</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="panel">
+    <h2>Study by Unit</h2>
+    <label for="unitSelect">Choose a unit</label>
+    <select id="unitSelect"></select>
+    <div id="cards" class="grid"></div>
+  </section>
+</main>
+<footer class="footer"><strong>Atlas Bears Math Hub</strong><br>Don’t wish for it. Work for it.</footer>
+<script src="assets/data.js"></script>
+<script>
+const select=document.getElementById("unitSelect");
+const cards=document.getElementById("cards");
+Object.entries(ATLAS_DATA.units).forEach(([key,u])=>{
+  const o=document.createElement("option");
+  o.value=key;o.textContent=u.label;select.appendChild(o);
+});
+function render(){
+  const unit=ATLAS_DATA.units[select.value];
+  cards.innerHTML="";
+  unit.words.forEach(([word,definition,example])=>{
+    const card=document.createElement("article");
+    card.className="card";
+    card.innerHTML=`<h3>${word}</h3><p><strong>Definition:</strong> ${definition}</p><p><strong>Example:</strong> ${example}</p>`;
+    cards.appendChild(card);
+  });
+}
+select.addEventListener("change",render);
+render();
+</script>
+</body>
+</html>

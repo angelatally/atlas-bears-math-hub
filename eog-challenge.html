@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EOG Challenge | Atlas Bears Math Hub</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-left">
+      <div class="brand-mark" aria-hidden="true">🐻</div>
+      <div><h1>EOG Challenge</h1><p>Atlas Bears Math Hub</p></div>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="mathdle.html">Mathdle</a>
+      <a href="vocabulary.html">Vocabulary</a>
+      <a class="active" href="eog-challenge.html">EOG Challenge</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="panel">
+    <h2 id="questionNumber">Question 1</h2>
+    <p id="questionText"></p>
+    <div id="choices" class="grid"></div>
+    <div id="feedback" class="notice hidden" aria-live="polite"></div>
+    <div class="actions">
+      <button id="nextBtn" class="btn primary hidden" type="button">Next Question</button>
+      <a class="btn secondary" href="index.html">Return Home</a>
+    </div>
+  </section>
+</main>
+<footer class="footer"><strong>Atlas Bears Math Hub</strong><br>Don’t wish for it. Work for it.</footer>
+<script>
+const questions=[
+  {
+    q:"Which number is irrational?",
+    choices:["0.25","3/5","√2","-7"],
+    answer:2,
+    explain:"√2 is irrational because it cannot be written as a fraction of two integers."
+  },
+  {
+    q:"What is the coefficient in the expression 6x + 4?",
+    choices:["x","4","6","10"],
+    answer:2,
+    explain:"The coefficient is the number multiplied by the variable, so the coefficient is 6."
+  },
+  {
+    q:"Which relation represents a function?",
+    choices:["One input has two outputs","Each input has exactly one output","Two inputs are not allowed to share an output","Every output must be different"],
+    answer:1,
+    explain:"A function assigns exactly one output to each input."
+  },
+  {
+    q:"A line rises 8 units while running 4 units to the right. What is its slope?",
+    choices:["1/2","2","4","12"],
+    answer:1,
+    explain:"Slope is rise divided by run: 8 ÷ 4 = 2."
+  },
+  {
+    q:"Which side is the hypotenuse of a right triangle?",
+    choices:["The shortest side","Either leg","The side opposite the right angle","The vertical side"],
+    answer:2,
+    explain:"The hypotenuse is the longest side and is opposite the right angle."
+  }
+];
+let index=0,score=0,answered=false;
+const qn=document.getElementById("questionNumber");
+const qt=document.getElementById("questionText");
+const choices=document.getElementById("choices");
+const feedback=document.getElementById("feedback");
+const next=document.getElementById("nextBtn");
+function render(){
+  answered=false;
+  const item=questions[index];
+  qn.textContent=`Question ${index+1} of ${questions.length}`;
+  qt.textContent=item.q;
+  choices.innerHTML="";
+  feedback.classList.add("hidden");
+  next.classList.add("hidden");
+  item.choices.forEach((choice,i)=>{
+    const b=document.createElement("button");
+    b.type="button";b.className="card";b.style.textAlign="left";
+    b.innerHTML=`<strong>${String.fromCharCode(65+i)}.</strong> ${choice}`;
+    b.addEventListener("click",()=>answer(i,b));
+    choices.appendChild(b);
+  });
+}
+function answer(i,button){
+  if(answered)return;
+  answered=true;
+  const item=questions[index];
+  if(i===item.answer){score++;feedback.innerHTML=`<strong>Correct!</strong> ${item.explain}`;}
+  else{feedback.innerHTML=`<strong>Not quite.</strong> ${item.explain}`;}
+  feedback.classList.remove("hidden");
+  next.classList.remove("hidden");
+}
+next.addEventListener("click",()=>{
+  index++;
+  if(index<questions.length)render();
+  else{
+    qn.textContent="Challenge Complete";
+    qt.textContent=`You answered ${score} out of ${questions.length} correctly.`;
+    choices.innerHTML="";
+    feedback.classList.add("hidden");
+    next.classList.add("hidden");
+  }
+});
+render();
+</script>
+</body>
+</html>

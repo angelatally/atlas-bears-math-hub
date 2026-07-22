@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mathdle | Atlas Bears Math Hub</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <style>
+    .unit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+    .unit-card{border:2px solid var(--border);background:#fff;border-radius:16px;padding:18px;text-align:left;min-height:130px}
+    .unit-card:hover,.unit-card:focus{border-color:var(--gold)}
+    .game-head{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+    .stats{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{background:var(--light);border:1px solid var(--border);border-radius:999px;padding:7px 11px;font-size:.9rem}
+    .message{text-align:center;min-height:28px;font-weight:700;margin:12px 0}
+    .hint{background:#fff8d9;border:1px solid #ead070;border-radius:12px;padding:12px;text-align:center;margin:10px auto;max-width:650px}
+    #board{display:flex;flex-direction:column;gap:6px;align-items:center;margin:18px auto}
+    .row{display:flex;gap:6px;justify-content:center}
+    .tile{width:clamp(30px,8.5vw,54px);height:clamp(36px,9vw,56px);display:flex;align-items:center;justify-content:center;border:2px solid #b9c1cd;border-radius:7px;background:#fff;font-size:clamp(1rem,4vw,1.55rem);font-weight:800;text-transform:uppercase}
+    .tile.correct{background:var(--green);border-color:var(--green);color:white}
+    .tile.present{background:var(--yellow);border-color:var(--yellow);color:white}
+    .tile.absent{background:var(--gray);border-color:var(--gray);color:white}
+    #keyboard{display:flex;flex-direction:column;gap:7px;align-items:center;margin:18px auto 4px}
+    .keyrow{display:flex;gap:5px;justify-content:center;width:100%}
+    .key{min-width:clamp(27px,8vw,45px);height:48px;border:none;border-radius:7px;background:#dce1e8;font-weight:800;text-transform:uppercase;padding:0 7px}
+    .key.wide{min-width:64px;font-size:.78rem}
+    .key.correct{background:var(--green);color:white}
+    .key.present{background:var(--yellow);color:white}
+    .key.absent{background:var(--gray);color:white}
+    .learn-card{background:#f5f8fc;border:1px solid var(--border);border-radius:14px;padding:16px;margin-top:14px}
+  </style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-left">
+      <div class="brand-mark" aria-hidden="true">🐻</div>
+      <div><h1>Atlas Bears Mathdle</h1><p>Guess the math vocabulary word</p></div>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a class="active" href="mathdle.html">Mathdle</a>
+      <a href="vocabulary.html">Vocabulary</a>
+      <a href="eog-challenge.html">EOG Challenge</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section id="homeScreen" class="panel">
+    <h2>Choose a Math Unit</h2>
+    <p>Green means correct place, yellow means wrong place, and gray means the letter is not in the word.</p>
+    <div id="unitGrid" class="unit-grid"></div>
+    <div class="actions"><button id="dailyBtn" class="btn gold" type="button">⭐ Daily Challenge</button></div>
+  </section>
+
+  <section id="gameScreen" class="panel hidden">
+    <div class="game-head">
+      <div><h2 id="gameTitle">Mathdle</h2><div class="small" id="gameSubtitle"></div></div>
+      <div class="stats"><span class="chip" id="lengthChip"></span><span class="chip" id="guessChip"></span></div>
+    </div>
+    <div id="message" class="message" aria-live="polite"></div>
+    <div id="hintBox" class="hint hidden"></div>
+    <div id="board"></div>
+    <div id="keyboard"></div>
+    <div class="actions">
+      <button id="hintBtn" class="btn gold" type="button">Show Hint</button>
+      <button id="newWordBtn" class="btn primary" type="button">New Word</button>
+      <button id="homeBtn" class="btn secondary" type="button">Choose Another Unit</button>
+    </div>
+    <div id="learnCard" class="learn-card hidden">
+      <h3>Vocabulary Review</h3>
+      <p><strong>Word:</strong> <span id="learnWord"></span></p>
+      <p><strong>Definition:</strong> <span id="learnDefinition"></span></p>
+      <p><strong>Example:</strong> <span id="learnExample"></span></p>
+    </div>
+  </section>
+</main>
+<footer class="footer"><strong>Atlas Bears Math Hub</strong><br>Don’t wish for it. Work for it.</footer>
+<script src="assets/data.js"></script>
+<script>
+let currentUnit=null,answer="",definition="",example="",currentGuess="",guesses=[],keyStates={},gameOver=false,dailyMode=false;
+const MAX_GUESSES=6;
+const $=id=>document.getElementById(id);
+function renderHome(){
+  const grid=$("unitGrid");grid.innerHTML="";
+  Object.entries(ATLAS_DATA.units).forEach(([key,unit])=>{
+    const b=document.createElement("button");
+    b.type="button";b.className="unit-card";
+    b.innerHTML=`<strong>${unit.label}</strong><br><span>${unit.description}</span>`;
+    b.addEventListener("click",()=>startGame(key,false));
+    grid.appendChild(b);
+  });
+}
+function dayNumber(){const n=new Date();return Math.floor(Date.UTC(n.getFullYear(),n.getMonth(),n.getDate())/86400000)}
+function startDaily(){
+  const all=[];Object.entries(ATLAS_DATA.units).forEach(([key,u])=>u.words.forEach(w=>all.push({key,w})));
+  const pick=all[dayNumber()%all.length];startGame(pick.key,true,pick.w);
+}
+function chooseRandomWord(key){const a=ATLAS_DATA.units[key].words;return a[Math.floor(Math.random()*a.length)]}
+function startGame(key,isDaily=false,forced=null){
+  currentUnit=key;dailyMode=isDaily;
+  [answer,definition,example]=forced||chooseRandomWord(key);
+  answer=answer.toUpperCase().replace(/[^A-Z]/g,"");
+  currentGuess="";guesses=[];keyStates={};gameOver=false;
+  $("homeScreen").classList.add("hidden");$("gameScreen").classList.remove("hidden");
+  $("message").textContent="";$("hintBox").classList.add("hidden");$("learnCard").classList.add("hidden");
+  $("gameTitle").textContent=isDaily?"Daily Mathdle Challenge":ATLAS_DATA.units[key].label;
+  $("gameSubtitle").textContent=isDaily?`Today's shared challenge • ${ATLAS_DATA.units[key].label}`:ATLAS_DATA.units[key].description;
+  $("lengthChip").textContent=`${answer.length} letters`;
+  $("guessChip").textContent=`${MAX_GUESSES} guesses left`;
+  renderBoard();renderKeyboard();
+}
+function scoreGuess(guess){
+  const result=Array(answer.length).fill("absent"),remaining=answer.split("");
+  for(let i=0;i<answer.length;i++){if(guess[i]===answer[i]){result[i]="correct";remaining[i]=null}}
+  for(let i=0;i<answer.length;i++){if(result[i]==="correct")continue;const p=remaining.indexOf(guess[i]);if(p!==-1){result[i]="present";remaining[p]=null}}
+  return result;
+}
+function renderBoard(){
+  const board=$("board");board.innerHTML="";
+  for(let r=0;r<MAX_GUESSES;r++){
+    const row=document.createElement("div");row.className="row";
+    const submitted=guesses[r],text=submitted?submitted.word:(r===guesses.length?currentGuess:"");
+    for(let c=0;c<answer.length;c++){
+      const tile=document.createElement("div");tile.className="tile";tile.textContent=text[c]||"";
+      if(submitted)tile.classList.add(submitted.result[c]);row.appendChild(tile);
+    }board.appendChild(row);
+  }
+}
+function setKeyState(letter,state){const rank={absent:1,present:2,correct:3};if(!keyStates[letter]||rank[state]>rank[keyStates[letter]])keyStates[letter]=state}
+function makeKey(label,value,wide=false){const b=document.createElement("button");b.type="button";b.className="key"+(wide?" wide":"");if(keyStates[value])b.classList.add(keyStates[value]);b.textContent=label;b.addEventListener("click",()=>handleKey(value));return b}
+function renderKeyboard(){
+  const kb=$("keyboard");kb.innerHTML="";
+  ["QWERTYUIOP","ASDFGHJKL","ZXCVBNM"].forEach((letters,i)=>{
+    const row=document.createElement("div");row.className="keyrow";
+    if(i===2)row.appendChild(makeKey("Enter","ENTER",true));
+    [...letters].forEach(l=>row.appendChild(makeKey(l,l)));
+    if(i===2)row.appendChild(makeKey("⌫","BACKSPACE",true));
+    kb.appendChild(row);
+  });
+}
+function handleKey(key){
+  if(gameOver)return;
+  if(key==="ENTER")return submitGuess();
+  if(key==="BACKSPACE"){currentGuess=currentGuess.slice(0,-1);$("message").textContent="";renderBoard();return}
+  if(/^[A-Z]$/.test(key)&&currentGuess.length<answer.length){currentGuess+=key;$("message").textContent="";renderBoard()}
+}
+function submitGuess(){
+  if(currentGuess.length!==answer.length){$("message").textContent=`Enter a ${answer.length}-letter word.`;return}
+  const result=scoreGuess(currentGuess);guesses.push({word:currentGuess,result});
+  [...currentGuess].forEach((l,i)=>setKeyState(l,result[i]));
+  if(currentGuess===answer){gameOver=true;$("message").textContent=`Excellent! You solved ${answer}.`;showLearning()}
+  else if(guesses.length>=MAX_GUESSES){gameOver=true;$("message").textContent=`The word was ${answer}.`;showLearning()}
+  currentGuess="";$("guessChip").textContent=`${Math.max(0,MAX_GUESSES-guesses.length)} guesses left`;
+  renderBoard();renderKeyboard();
+}
+function showLearning(){
+  $("learnWord").textContent=answer;$("learnDefinition").textContent=definition;$("learnExample").textContent=example;
+  $("learnCard").classList.remove("hidden");
+}
+$("dailyBtn").addEventListener("click",startDaily);
+$("hintBtn").addEventListener("click",()=>{$("hintBox").textContent=definition;$("hintBox").classList.remove("hidden")});
+$("newWordBtn").addEventListener("click",()=>dailyMode?startDaily():startGame(currentUnit,false));
+$("homeBtn").addEventListener("click",()=>{$("gameScreen").classList.add("hidden");$("homeScreen").classList.remove("hidden")});
+document.addEventListener("keydown",e=>{
+  if($("gameScreen").classList.contains("hidden"))return;
+  if(e.key==="Enter")handleKey("ENTER");else if(e.key==="Backspace")handleKey("BACKSPACE");else{const k=e.key.toUpperCase();if(/^[A-Z]$/.test(k))handleKey(k)}
+});
+renderHome();
+</script>
+</body>
+</html>
