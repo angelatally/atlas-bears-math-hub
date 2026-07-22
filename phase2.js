@@ -63,16 +63,35 @@
   } catch {
     progress = {};
   }
+
   progress.xp = Number(progress.xp) || 0;
   progress.streak = Number(progress.streak) || 0;
+  progress.longestStreak = Number(progress.longestStreak) || 0;
+  progress.attempts = Number(progress.attempts) || 0;
+  progress.correct = Number(progress.correct) || 0;
+  progress.visits = Number(progress.visits) || 0;
+  progress.lastVisit = progress.lastVisit || "";
   progress.lastCompleted = progress.lastCompleted || "";
   progress.completedDates = Array.isArray(progress.completedDates) ? progress.completedDates : [];
+  progress.attemptedToday = progress.attemptedToday || {};
+
+  // Count one visit per calendar day on this device.
+  if (progress.lastVisit !== todayKey) {
+    progress.visits += 1;
+    progress.lastVisit = todayKey;
+  }
 
   const qEl = document.getElementById("daily-question");
   const answersEl = document.getElementById("daily-answers");
   const feedbackEl = document.getElementById("daily-feedback");
   const xpEl = document.getElementById("xp-total");
+  const visitEl = document.getElementById("visit-total");
+  const correctEl = document.getElementById("correct-total");
+  const attemptEl = document.getElementById("attempt-total");
+  const accuracyEl = document.getElementById("accuracy-total");
   const streakEl = document.getElementById("streak-total");
+  const longestStreakEl = document.getElementById("longest-streak-total");
+  const completedEl = document.getElementById("completed-total");
   const xpFill = document.getElementById("xp-fill");
   const nextBadgeEl = document.getElementById("next-badge");
   const badgeList = document.getElementById("badge-list");
@@ -89,8 +108,18 @@
   }
 
   function renderProgress() {
+    const accuracy = progress.attempts > 0
+      ? Math.round((progress.correct / progress.attempts) * 100)
+      : 0;
+
     xpEl.textContent = progress.xp;
+    visitEl.textContent = progress.visits;
+    correctEl.textContent = progress.correct;
+    attemptEl.textContent = progress.attempts;
+    accuracyEl.textContent = `${accuracy}%`;
     streakEl.textContent = progress.streak;
+    longestStreakEl.textContent = progress.longestStreak;
+    completedEl.textContent = progress.completedDates.length;
 
     badgeList.innerHTML = "";
     badges.filter(b => progress.xp >= b.xp).forEach(b => {
@@ -104,7 +133,10 @@
     if (next) {
       const previous = [...badges].reverse().find(b => progress.xp >= b.xp);
       const start = previous ? previous.xp : 0;
-      const percent = Math.max(0, Math.min(100, ((progress.xp - start) / (next.xp - start)) * 100));
+      const percent = Math.max(
+        0,
+        Math.min(100, ((progress.xp - start) / (next.xp - start)) * 100)
+      );
       xpFill.style.width = `${percent}%`;
       nextBadgeEl.textContent = `${next.xp - progress.xp} more XP until ${next.icon} ${next.name}.`;
     } else {
@@ -122,35 +154,48 @@
   }
 
   qEl.textContent = question.q;
+
   question.choices.forEach((choice, index) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "answer-button";
     button.textContent = choice;
+
     button.addEventListener("click", () => {
       if (progress.completedDates.includes(todayKey)) return;
 
+      progress.attempts += 1;
+      progress.attemptedToday[todayKey] = (progress.attemptedToday[todayKey] || 0) + 1;
+
       if (index === question.answer) {
         button.classList.add("correct");
+        progress.correct += 1;
         progress.xp += 10;
 
         if (progress.lastCompleted) {
           const gap = dateDiffDays(progress.lastCompleted, todayKey);
-          progress.streak = gap === 1 ? progress.streak + 1 : (gap === 0 ? progress.streak : 1);
+          progress.streak = gap === 1
+            ? progress.streak + 1
+            : (gap === 0 ? progress.streak : 1);
         } else {
           progress.streak = 1;
         }
 
+        progress.longestStreak = Math.max(progress.longestStreak, progress.streak);
         progress.lastCompleted = todayKey;
         progress.completedDates.push(todayKey);
+
         save();
         lockQuestion(`Correct! +10 XP. ${question.why}`);
         renderProgress();
       } else {
         button.classList.add("incorrect");
+        save();
         feedbackEl.textContent = "Not quite. Try another answer.";
+        renderProgress();
       }
     });
+
     answersEl.appendChild(button);
   });
 
@@ -159,11 +204,14 @@
   }
 
   resetButton.addEventListener("click", () => {
-    const confirmed = window.confirm("Reset all XP, streaks, and badges saved on this device?");
+    const confirmed = window.confirm(
+      "Reset all visits, attempts, accuracy, XP, streaks, and badges saved on this device?"
+    );
     if (!confirmed) return;
     localStorage.removeItem(storageKey);
     window.location.reload();
   });
 
+  save();
   renderProgress();
 })();

@@ -54,26 +54,55 @@
       <div id="daily-feedback" class="daily-feedback" aria-live="polite"></div>
     </div>
 
+    
     <aside class="progress-card" aria-labelledby="progress-title">
       <div class="dashboard-label">MY PROGRESS</div>
       <h2 id="progress-title">Bear Tracker</h2>
-      <div class="progress-grid">
+
+      <div class="progress-grid progress-grid-wide">
         <div class="progress-stat">
           <strong id="xp-total">0</strong>
           <span>Total XP</span>
         </div>
         <div class="progress-stat">
+          <strong id="visit-total">0</strong>
+          <span>Visits</span>
+        </div>
+        <div class="progress-stat">
+          <strong id="correct-total">0</strong>
+          <span>Correct</span>
+        </div>
+        <div class="progress-stat">
+          <strong id="attempt-total">0</strong>
+          <span>Attempts</span>
+        </div>
+        <div class="progress-stat">
+          <strong id="accuracy-total">0%</strong>
+          <span>Accuracy</span>
+        </div>
+        <div class="progress-stat">
           <strong id="streak-total">0</strong>
-          <span>Day Streak</span>
+          <span>Current Streak</span>
+        </div>
+        <div class="progress-stat">
+          <strong id="longest-streak-total">0</strong>
+          <span>Longest Streak</span>
+        </div>
+        <div class="progress-stat">
+          <strong id="completed-total">0</strong>
+          <span>Days Completed</span>
         </div>
       </div>
+
       <div class="xp-bar" aria-label="XP progress toward next badge">
         <div id="xp-fill" class="xp-fill"></div>
       </div>
       <p id="next-badge" class="small progress-message">Complete today’s challenge to earn XP.</p>
       <div id="badge-list" class="badge-list" aria-label="Earned badges"></div>
+      <p class="device-note">Progress is saved only on this device and browser.</p>
       <button id="reset-progress" class="text-button" type="button">Reset progress on this device</button>
     </aside>
+
   </section>
 
   <div class="section-heading">

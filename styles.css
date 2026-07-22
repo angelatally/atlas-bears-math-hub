@@ -440,3 +440,20 @@ select:focus,input:focus,textarea:focus{outline:3px solid rgba(242,194,48,.32);b
 @media(max-width:560px){
   .daily-answers{grid-template-columns:1fr}
 }
+
+
+/* Phase 2B expanded device tracking */
+.progress-grid-wide{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.device-note{
+  margin:10px 0 4px;
+  color:#cfcfcf;
+  font-size:.76rem;
+  line-height:1.35;
+}
+@media(min-width:1100px){
+  .progress-card .progress-grid-wide{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
