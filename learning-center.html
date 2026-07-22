@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111111">
+  <title>Learning Center | Atlas Bears Math Hub</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-left">
+      <div class="brand-mark" aria-hidden="true">🐻</div>
+      <div><h1>Learning Center</h1><p>Learn it. See it. Try it.</p></div>
+    </div>
+    <nav aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="mathdle.html">Mathdle</a>
+      <a class="active" href="learning-center.html">Learning Center</a>
+      <a href="vocabulary.html">Vocabulary</a>
+      <a href="eog-challenge.html">EOG Challenge</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="learning-hero">
+    <div>
+      <div class="eyebrow">🧭 REVIEW BY TOPIC</div>
+      <h2>Your path to stronger math skills</h2>
+      <p>Choose a strand, open a mini-lesson, study the example, and complete the quick check.</p>
+    </div>
+    <div class="learning-summary" aria-label="Learning Center progress">
+      <strong id="reviewed-count">0</strong>
+      <span>of 16 topics reviewed on this device</span>
+      <div class="learning-progress"><div id="learning-progress-fill"></div></div>
+    </div>
+  </section>
+
+  <section class="learning-toolbar panel" aria-label="Learning Center controls">
+    <div>
+      <label for="strand-filter">Choose a strand</label>
+      <select id="strand-filter">
+        <option value="all">All strands</option>
+      </select>
+    </div>
+    <div>
+      <label for="topic-search">Search topics</label>
+      <input id="topic-search" type="search" placeholder="Try slope, volume, functions...">
+    </div>
+  </section>
+
+  <section id="strand-sections" class="strand-sections" aria-live="polite"></section>
+
+  <section id="lesson-view" class="lesson-view hidden" aria-labelledby="lesson-title">
+    <button id="close-lesson" class="lesson-close" type="button" aria-label="Close lesson">×</button>
+    <div id="lesson-strand" class="dashboard-label"></div>
+    <h2 id="lesson-title"></h2>
+    <p id="lesson-standard" class="standard-tag"></p>
+
+    <div class="lesson-layout">
+      <article class="lesson-main">
+        <section class="lesson-block">
+          <h3>📖 Learn It</h3>
+          <p id="lesson-explanation"></p>
+        </section>
+        <section class="lesson-block">
+          <h3>🔑 Key Ideas</h3>
+          <ul id="lesson-key-ideas"></ul>
+        </section>
+        <section class="lesson-block example-block">
+          <h3>✏️ Worked Example</h3>
+          <p id="lesson-example-question" class="example-question"></p>
+          <div id="lesson-example-steps"></div>
+          <p id="lesson-example-answer" class="example-answer"></p>
+        </section>
+      </article>
+
+      <aside class="quick-check-card">
+        <div class="dashboard-label">QUICK CHECK</div>
+        <h3>Try It</h3>
+        <p id="check-question"></p>
+        <div id="check-choices" class="check-choices"></div>
+        <p id="check-feedback" class="check-feedback" aria-live="polite"></p>
+        <button id="mark-reviewed" class="btn gold" type="button">Mark Topic Reviewed</button>
+      </aside>
+    </div>
+  </section>
+
+  <div id="no-results" class="notice hidden">No topics matched your search. Try a different word or choose another strand.</div>
+</main>
+
+<footer class="footer"><strong>Atlas Bears Math Hub</strong><br>Don’t wish for it. Work for it.</footer>
+<script src="learning-data.js"></script>
+<script src="learning-center.js"></script>
+</body>
+</html>

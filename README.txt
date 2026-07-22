@@ -1,27 +1,24 @@
-ATLAS BEARS MATH HUB — PHASE 2B
+ATLAS BEARS MATH HUB — LEARNING CENTER UPDATE
 
-NEW DEVICE-BASED TRACKING
-- Daily visits
-- Total question attempts
-- Total correct answers
-- Accuracy percentage
-- Current streak
-- Longest streak
-- Days completed
-- XP and achievement badges
+NEW FEATURES
+- New Learning Center page
+- Five math strands
+- Sixteen student-friendly mini-lessons
+- Worked examples and quick checks
+- Search and strand filters
+- Device-based reviewed-topic progress
 
-IMPORTANT
-All data is stored only in the browser on the device being used.
-It is not sent to the teacher and does not follow students to another device.
-
-UPLOAD ALL FILES TO THE MAIN LEVEL OF THE GITHUB REPOSITORY:
+UPLOAD ALL FILES TO THE MAIN LEVEL OF YOUR GITHUB REPOSITORY:
 index.html
 mathdle.html
 vocabulary.html
 eog-challenge.html
+learning-center.html
 styles.css
 data.js
 phase2.js
+learning-data.js
+learning-center.js
 README.txt
 
-After uploading, click Commit changes and wait 1–3 minutes before refreshing the live site.
+Allow existing files to be replaced, commit the changes, wait 1–3 minutes, and refresh the live website.
