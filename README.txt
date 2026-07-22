@@ -1,17 +1,20 @@
-ATLAS BEARS MATH HUB — FLAT GITHUB VERSION
+ATLAS BEARS MATH HUB — PHASE 2A
 
-Upload all seven files directly to the main level of your GitHub repository:
+NEW FEATURES
+- Daily Bear Challenge
+- 10 XP for a correct daily answer
+- Daily streak tracking
+- Achievement badges
+- Progress saved locally on the student's device
+
+UPLOAD ALL FILES TO THE MAIN LEVEL OF THE GITHUB REPOSITORY:
 index.html
 mathdle.html
 vocabulary.html
 eog-challenge.html
 styles.css
 data.js
+phase2.js
 README.txt
 
-There is no assets folder in this version.
-
-After uploading:
-1. Click Commit changes.
-2. Wait 1–3 minutes.
-3. Refresh https://angelatally.github.io/atlas-bears-math-hub/
+After uploading, click Commit changes and wait 1–3 minutes before refreshing the live site.

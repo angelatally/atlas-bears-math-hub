@@ -44,6 +44,38 @@
 
   <div class="motto-strip">DON’T WISH FOR IT. WORK FOR IT.</div>
 
+
+  <section class="phase2-dashboard" aria-labelledby="daily-title">
+    <div class="daily-card">
+      <div class="dashboard-label">TODAY’S CHALLENGE</div>
+      <h2 id="daily-title">Daily Bear Challenge</h2>
+      <p id="daily-question" class="daily-question">Loading today’s problem…</p>
+      <div id="daily-answers" class="daily-answers" aria-label="Answer choices"></div>
+      <div id="daily-feedback" class="daily-feedback" aria-live="polite"></div>
+    </div>
+
+    <aside class="progress-card" aria-labelledby="progress-title">
+      <div class="dashboard-label">MY PROGRESS</div>
+      <h2 id="progress-title">Bear Tracker</h2>
+      <div class="progress-grid">
+        <div class="progress-stat">
+          <strong id="xp-total">0</strong>
+          <span>Total XP</span>
+        </div>
+        <div class="progress-stat">
+          <strong id="streak-total">0</strong>
+          <span>Day Streak</span>
+        </div>
+      </div>
+      <div class="xp-bar" aria-label="XP progress toward next badge">
+        <div id="xp-fill" class="xp-fill"></div>
+      </div>
+      <p id="next-badge" class="small progress-message">Complete today’s challenge to earn XP.</p>
+      <div id="badge-list" class="badge-list" aria-label="Earned badges"></div>
+      <button id="reset-progress" class="text-button" type="button">Reset progress on this device</button>
+    </aside>
+  </section>
+
   <div class="section-heading">
     <div>
       <h2>Choose Your Challenge</h2>
@@ -96,5 +128,6 @@
   <strong>Atlas Bears Math Hub</strong><br>
   Don’t wish for it. Work for it.
 </footer>
+  <script src="phase2.js"></script>
 </body>
 </html>
