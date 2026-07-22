@@ -1,311 +1,88 @@
 
-:root{
-  --black:#111111;
-  --black-2:#1b1b1b;
-  --black-3:#2a2a2a;
-  --gold:#f2c230;
-  --gold-dark:#c99a00;
-  --gold-soft:#fff3bd;
-  --cream:#fffdf6;
-  --white:#ffffff;
-  --ink:#181818;
-  --muted:#666666;
-  --green:#538d4e;
-  --yellow:#b59f3b;
-  --gray:#787c7e;
-  --border:#ded8c7;
-  --shadow:0 12px 30px rgba(0,0,0,.10);
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  color:var(--ink);
-  background:
-    radial-gradient(circle at top right,rgba(242,194,48,.15),transparent 28rem),
-    linear-gradient(180deg,#fffdf7,#f4f1e8);
-}
-a{text-decoration:none;color:inherit}
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
-.hidden{display:none!important}
-
-.topbar{
-  position:sticky;
-  top:0;
-  z-index:20;
-  background:rgba(17,17,17,.97);
-  color:white;
-  border-bottom:4px solid var(--gold);
-  box-shadow:0 5px 16px rgba(0,0,0,.18);
-}
-.brand{
-  max-width:1140px;
-  margin:auto;
-  padding:15px 18px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:18px;
-}
-.brand-left{display:flex;align-items:center;gap:13px}
-.brand-mark{
-  width:52px;
-  height:52px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  background:var(--gold);
-  color:var(--black);
-  border:3px solid white;
-  box-shadow:0 0 0 3px var(--gold-dark);
-  font-size:29px;
-}
-.brand h1{font-size:clamp(1.25rem,3.5vw,1.95rem);margin:0;letter-spacing:.2px}
-.brand p{margin:3px 0 0;color:#ddd;font-size:.93rem}
-nav{display:flex;gap:7px;flex-wrap:wrap}
-nav a{
-  padding:9px 12px;
-  border-radius:10px;
-  color:#eee;
-  transition:.18s ease;
-}
-nav a:hover,nav a.active{
-  background:var(--gold);
-  color:var(--black);
-  transform:translateY(-1px);
-}
-
-main{max-width:1140px;margin:auto;padding:28px 16px 48px}
-
-.hero{
-  overflow:hidden;
-  position:relative;
-  min-height:390px;
-  display:grid;
-  align-items:center;
-  grid-template-columns:1.25fr .75fr;
-  gap:26px;
-  background:linear-gradient(130deg,var(--black),var(--black-3));
-  color:white;
-  border:1px solid #000;
-  border-radius:26px;
-  padding:42px clamp(22px,5vw,55px);
-  box-shadow:var(--shadow);
-}
-.hero:before{
-  content:"";
-  position:absolute;
-  width:320px;height:320px;
-  right:-90px;top:-120px;
-  border-radius:50%;
-  background:rgba(242,194,48,.16);
-}
-.hero:after{
-  content:"";
-  position:absolute;
-  width:220px;height:220px;
-  left:45%;bottom:-150px;
-  border-radius:50%;
-  background:rgba(242,194,48,.10);
-}
-.hero-copy,.hero-art{position:relative;z-index:1}
-.eyebrow{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  background:rgba(242,194,48,.14);
-  border:1px solid rgba(242,194,48,.5);
-  color:var(--gold);
-  padding:7px 11px;
-  border-radius:999px;
-  font-weight:700;
-  font-size:.87rem;
-  letter-spacing:.4px;
-}
-.hero h2{
-  margin:15px 0 12px;
-  font-size:clamp(2.2rem,6vw,4.25rem);
-  line-height:.98;
-  letter-spacing:-1.8px;
-}
-.hero h2 span{color:var(--gold)}
-.hero p{max-width:680px;margin:0;line-height:1.6;color:#e3e3e3;font-size:1.05rem}
-.hero-actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:22px}
-.hero-art{
-  display:grid;
-  place-items:center;
-  min-height:250px;
-}
-.mascot-ring{
-  width:min(255px,65vw);
-  aspect-ratio:1;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  background:radial-gradient(circle,var(--gold) 0 57%,var(--gold-dark) 58% 65%,var(--black) 66%);
-  border:6px solid white;
-  box-shadow:0 18px 35px rgba(0,0,0,.35);
-  font-size:115px;
-  animation:float 3.2s ease-in-out infinite;
-}
-@keyframes float{50%{transform:translateY(-8px)}}
-
-.motto-strip{
-  margin:17px 0 0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  min-height:58px;
-  padding:12px 18px;
-  background:var(--gold);
-  color:var(--black);
-  border-radius:15px;
-  font-weight:900;
-  letter-spacing:.5px;
-  box-shadow:0 6px 14px rgba(130,95,0,.15);
-}
-
-.section-heading{
-  display:flex;
-  align-items:end;
-  justify-content:space-between;
-  gap:16px;
-  margin:34px 0 13px;
-}
-.section-heading h2,.section-title{margin:0;font-size:clamp(1.55rem,4vw,2.1rem)}
-.section-heading p{margin:0;color:var(--muted)}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(235px,1fr));
-  gap:16px;
-}
-.card{
-  position:relative;
-  overflow:hidden;
-  background:white;
-  border:1px solid var(--border);
-  border-radius:19px;
-  padding:20px;
-  box-shadow:0 5px 16px rgba(0,0,0,.07);
-  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
-}
-.card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 13px 24px rgba(0,0,0,.12);
-  border-color:var(--gold-dark);
-}
-.card:before{
-  content:"";
-  position:absolute;
-  top:0;left:0;right:0;
-  height:5px;
-  background:var(--gold);
-}
-.card h3{margin:10px 0 7px;font-size:1.22rem}
-.card p{color:var(--muted);line-height:1.48}
-.card .icon{
-  width:52px;height:52px;
-  display:grid;place-items:center;
-  border-radius:14px;
-  background:var(--black);
-  color:var(--gold);
-  font-size:28px;
-  box-shadow:inset 0 0 0 2px rgba(242,194,48,.22);
-}
-.card .btn{margin-top:8px;display:inline-flex}
-
-.btn{
-  border:none;
-  border-radius:12px;
-  padding:11px 16px;
-  font-weight:800;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:7px;
-  transition:.16s ease;
-}
-.btn:hover{transform:translateY(-2px)}
-.primary{background:var(--black);color:white;border:2px solid var(--black)}
-.primary:hover{background:var(--black-3)}
-.gold{background:var(--gold);color:var(--black);border:2px solid var(--gold)}
-.gold:hover{background:#ffd84f}
-.secondary{background:white;color:var(--ink);border:2px solid var(--border)}
-.secondary:hover{border-color:var(--gold-dark)}
-.danger{background:#feecec;color:#a52828;border:1px solid #e9bcbc}
-
-.quick-stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  margin-top:17px;
-}
-.stat{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:16px;
-  text-align:center;
-}
-.stat strong{display:block;font-size:1.55rem;color:var(--black)}
-.stat span{color:var(--muted);font-size:.9rem}
-
-.notice{
-  background:var(--gold-soft);
-  border:1px solid #dfbd3c;
-  border-left:6px solid var(--gold-dark);
-  border-radius:14px;
-  padding:14px 16px;
-  margin-top:18px;
-}
-.panel{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:21px;
-  margin-bottom:16px;
-  box-shadow:var(--shadow)
-}
-.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
-.footer{
-  background:var(--black);
-  color:#d8d8d8;
-  text-align:center;
-  font-size:.88rem;
-  padding:24px 15px;
-  border-top:4px solid var(--gold);
-}
-label{display:block;font-weight:800;margin:10px 0 5px}
-input,select,textarea{
-  width:100%;
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:11px;
-  background:white;
-}
-select:focus,input:focus,textarea:focus{outline:3px solid rgba(242,194,48,.32);border-color:var(--gold-dark)}
-.small{font-size:.88rem;color:#666;line-height:1.4}
-
-@media(max-width:820px){
-  .brand{align-items:flex-start;flex-direction:column}
-  nav{width:100%}
-  .hero{grid-template-columns:1fr;text-align:center;padding-top:34px}
-  .hero-copy p{margin-inline:auto}
-  .hero-actions{justify-content:center}
-  .hero-art{min-height:210px}
-  .mascot-ring{width:205px;font-size:92px}
-  .section-heading{align-items:flex-start;flex-direction:column}
-}
-@media(max-width:560px){
-  nav{display:grid;grid-template-columns:repeat(2,1fr)}
-  nav a{text-align:center}
-  .quick-stats{grid-template-columns:1fr}
-  .hero{border-radius:19px}
-}
-@media(prefers-reduced-motion:reduce){
-  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-}
+window.ATLAS_DATA = {
+  units: {
+    numbers: {
+      label:"Real Number System",
+      description:"Rational and irrational numbers, roots, and exponents",
+      words:[
+        ["INTEGER","A whole number, its opposite, or zero.","Examples include -4, 0, and 12."],
+        ["RATIONAL","A number that can be written as a fraction of two integers.","0.75 is rational because it equals 3/4."],
+        ["IRRATIONAL","A number that cannot be written as a ratio of two integers.","The square root of 2 is irrational."],
+        ["DECIMAL","A number written using a decimal point.","3.25 is a decimal."],
+        ["SQUARE","The product of a number multiplied by itself.","Six squared equals 36."],
+        ["CUBE","The product of three equal factors.","Four cubed equals 64."],
+        ["EXPONENT","A number that shows how many times a base is used as a factor.","In 2³, the exponent is 3."],
+        ["RADICAL","A symbol used to show a root.","The square-root symbol is a radical."]
+      ]
+    },
+    equations: {
+      label:"Expressions and Equations",
+      description:"Variables, solutions, coefficients, and inequalities",
+      words:[
+        ["VARIABLE","A letter or symbol that represents a number.","In 4x + 2, x is the variable."],
+        ["CONSTANT","A number whose value does not change.","In 3x + 7, 7 is a constant."],
+        ["EQUATION","A statement showing that two expressions are equal.","2x + 1 = 9 is an equation."],
+        ["SOLUTION","A value that makes an equation true.","x = 4 solves 2x + 1 = 9."],
+        ["EXPRESSION","Numbers, variables, and operations without an equals sign.","5x - 3 is an expression."],
+        ["INEQUALITY","A comparison using symbols such as <, >, ≤, or ≥.","x > 6 is an inequality."],
+        ["COEFFICIENT","The number multiplied by a variable.","In 8x, 8 is the coefficient."],
+        ["DISTRIBUTE","Multiply a factor by every term inside parentheses.","3(x + 2) becomes 3x + 6."]
+      ]
+    },
+    functions: {
+      label:"Functions and Slope",
+      description:"Inputs, outputs, rate of change, and graph features",
+      words:[
+        ["FUNCTION","A relation in which each input has exactly one output.","A vertical line test can identify a function."],
+        ["DOMAIN","The set of all input values.","The x-values are the domain."],
+        ["RANGE","The set of all output values.","The y-values are the range."],
+        ["LINEAR","A relationship with a constant rate of change.","A straight-line graph is linear."],
+        ["NONLINEAR","A relationship without a constant rate of change.","A curved graph is often nonlinear."],
+        ["SLOPE","The rate of change between two points.","Slope can be found using rise over run."],
+        ["INTERCEPT","A point where a graph crosses an axis.","The y-intercept occurs when x = 0."],
+        ["INCREASING","Describes a graph that rises from left to right.","A positive slope makes a line increase."]
+      ]
+    },
+    geometry: {
+      label:"Geometry and Transformations",
+      description:"Angle relationships, congruence, similarity, and transformations",
+      words:[
+        ["ROTATION","A transformation that turns a figure around a point.","A 90-degree turn is a rotation."],
+        ["REFLECTION","A transformation that flips a figure across a line.","Reflecting over the y-axis changes the sign of x."],
+        ["TRANSLATION","A transformation that slides a figure.","Moving 3 units right is a translation."],
+        ["DILATION","A transformation that changes size while preserving shape.","A scale factor of 2 doubles side lengths."],
+        ["CONGRUENT","Having the same size and shape.","Congruent figures have equal corresponding sides."],
+        ["SIMILAR","Having the same shape and proportional side lengths.","Similar figures may be different sizes."],
+        ["PARALLEL","Lines in the same plane that never intersect.","Parallel lines have equal slopes."],
+        ["TRANSVERSAL","A line that crosses two or more other lines.","A transversal forms angle pairs."]
+      ]
+    },
+    pythagorean: {
+      label:"Pythagorean Theorem",
+      description:"Right triangles, distance, and missing side lengths",
+      words:[
+        ["TRIANGLE","A polygon with three sides.","A right triangle contains one 90-degree angle."],
+        ["HYPOTENUSE","The longest side of a right triangle.","The hypotenuse is opposite the right angle."],
+        ["LEG","One of the two sides that form the right angle.","The legs are a and b in a² + b² = c²."],
+        ["DISTANCE","The length between two points.","The distance formula comes from the Pythagorean theorem."],
+        ["THEOREM","A mathematical statement that has been proven true.","The Pythagorean theorem applies to right triangles."],
+        ["RIGHT","Describes an angle measuring 90 degrees.","A right angle is shown with a small square."],
+        ["DIAGONAL","A segment connecting nonadjacent vertices.","A rectangle's diagonal can be found with the Pythagorean theorem."]
+      ]
+    },
+    statistics: {
+      label:"Statistics and Scatterplots",
+      description:"Patterns, associations, outliers, and lines of fit",
+      words:[
+        ["SCATTERPLOT","A graph that displays paired numerical data.","Each point represents an ordered pair."],
+        ["CORRELATION","A relationship between two numerical variables.","Correlation may be positive, negative, or absent."],
+        ["POSITIVE","A relationship in which both variables tend to increase together.","An upward trend shows positive association."],
+        ["NEGATIVE","A relationship in which one variable increases as the other decreases.","A downward trend shows negative association."],
+        ["OUTLIER","A data point far from the overall pattern.","An outlier may affect a line of fit."],
+        ["ASSOCIATION","A connection or relationship between variables.","A scatterplot may show an association."],
+        ["FREQUENCY","The number of times a value occurs.","A frequency table organizes counts."],
+        ["CLUSTER","A group of data points located close together.","A cluster shows concentration in one region."]
+      ]
+    }
+  }
+};
